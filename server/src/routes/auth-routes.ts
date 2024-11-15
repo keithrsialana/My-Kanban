@@ -19,10 +19,15 @@ export const login = async (req: Request, res: Response) => {
 				const result: boolean = await bcrypt.compare(password, user.password);
 				if (result) {
 					// return JWT token
+					// get secret key
 					const secret = process.env.JWT_SECRET_KEY as string;
 					if (!secret || secret == "")
 						return res.status(500).json({ message: "Something went wrong" });
+
+					// create payload for token
 					const payload = { username: username };
+
+					// generate token
 					const newToken = jwt.sign(payload, secret, { expiresIn: "1h" });
 					return res.status(200).json({ token: newToken });
 				}

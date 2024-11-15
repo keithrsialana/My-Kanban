@@ -12,14 +12,23 @@ class AuthService {
 	loggedIn() {
 		// return a value that indicates if the user is logged in
 		const token = this.getToken();
-		if (!token || token == "") return false;
+		if (!token || token == "") {
+			return false;
+		}
+		if (this.isTokenExpired(token)) {
+			this.logout();
+			return false;
+		}
 		return true;
 	}
 
 	isTokenExpired(token: string) {
-		// TODO: return a value that indicates if the token is expired
+		// return a value that indicates if the token is expired
 		const decoded: JwtPayload = jwtDecode(token);
-		console.log("Decoded:", decoded);
+		const currentTime = Math.floor(Date.now() / 1000);
+		if (!decoded) return true;
+
+		if (decoded.exp && decoded.exp < currentTime) return false;
 	}
 
 	getToken(): string {
@@ -35,16 +44,20 @@ class AuthService {
 
 	login(idToken: string) {
 		// set the token to localStorage
-		localStorage.setItem("auth_token", idToken);
-		// redirect to the home page
-		window.open("/", "_self");
+		if (!this.loggedIn()) {
+			localStorage.setItem("auth_token", idToken);
+			// redirect to the home page
+			window.open("/", "_self");
+		}
 	}
 
 	logout() {
 		// remove the token from localStorage
-		localStorage.removeItem("auth_token");
-		// redirect to the login page
-		window.open("/login", "_self");
+		if (this.loggedIn()) {
+			localStorage.removeItem("auth_token");
+			// redirect to the login page
+			window.open("/login", "_self");
+		}
 	}
 }
 
