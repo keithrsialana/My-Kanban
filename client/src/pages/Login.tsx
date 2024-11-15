@@ -7,6 +7,7 @@ const Login = () => {
     username: '',
     password: ''
   });
+  const [errorMessage, setError] = useState('');
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -21,10 +22,15 @@ const Login = () => {
     try {
       const data = await login(loginData);
       console.log(data);
-      if (data.token)
+      if (data.token){
         auth.login(data.token);
+      }
+      else{
+        setError('Invalid login credentials');
+      }
     } catch (err) {
       console.error('Failed to login', err);
+      setError('Invalid login credentials');
     }
   };
 
@@ -46,6 +52,7 @@ const Login = () => {
           value={loginData.password || ''}
           onChange={handleChange}
         />
+        <p style={{color:"pink",fontWeight:"bold"}}>{errorMessage}</p>
         <button type='submit'>Submit Form</button>
       </form>
     </div>
