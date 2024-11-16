@@ -17,7 +17,7 @@
 In this project, I exercise using jsonwebtoken to enable authentication of the user's login throughout the website. This application allows users to securely manage tasks across columns (such as "To Do," "In Progress," and "Done") and supports CRUD (Create, Read, Update, Delete) functionality for task items.
 
 ### Deployed Application Link
-Coming soon!
+[https://my-kanban-v94q.onrender.com/](https://my-kanban-v94q.onrender.com/)
 
 ## Requirements
 
@@ -62,7 +62,12 @@ MIT
 - Task Board with Kanban Interface
 
 ## Screenshots
-Coming soon!
+### Login Page
+![Login](client\public\login.png)
+### Kanban Page
+![Login](client\public\kanban.png)
+### Create Ticket Page
+![Login](client\public\create_ticket.png)
 
 ## Questions
 
